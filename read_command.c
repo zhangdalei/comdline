@@ -7,14 +7,6 @@
 char buffer[PAR_LEN];
 int read_command(char **command,char **parameters)
 {
-#ifdef READLINE_ON
-    free(buffer);
-    buffer = readline(prompt);
-    if(feof(stdin)) {
-        printf("\n");
-        exit(0);
-    }
-
     char* Res_fgets = fgets(buffer,COMMAND_LEN,stdin);
     if(Res_fgets == NULL)
     {

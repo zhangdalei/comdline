@@ -6,6 +6,7 @@
 #include "include/zshell.h"
 #include "include/debug.h"
 
+extern int build_in(const char* com, char** par);
 int process();
 
 int main()
@@ -18,6 +19,7 @@ int main()
 
 int process()
 {
+
 	pid_t pid;
 	int status;
 	int parnum;
@@ -25,15 +27,19 @@ int process()
 	char *command = NULL;
 	char *parameters[PAR_LEN];
 	char *com;
-	
+start:	
 	type_prompt(prompt);
 	fprintf(stdout, "%s",prompt);
-	parnum = read_command(&command,parameters);
+	parnum = read_command(&command, parameters);
 	com = command;
-	
+	// 内建命令处理 cd
+	if (build_in(com, parameters))
+		return 1;
 	debug_print("command:[%s]\nparameters:\ncount:%d\n",com,parnum);
-	if(!strcmp(com, "qute") || !strcmp(com, "q"))
-		exit(1);
+	if(!strcmp(com, "")){
+		//printf("-----------------------");
+		goto start;
+	}
 /*
 	int i;
     for(i=0;i<parnum;i++)

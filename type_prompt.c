@@ -6,7 +6,6 @@ int type_prompt(char* prompt)
 {
 	char* pathname = NULL;
 	uid_t uid;
-	struct passwd* pwd;
 	char hostname[HOSTNAME_LEN];
 	uid = getuid();
 	pwd = getpwuid(uid);
