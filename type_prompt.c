@@ -1,6 +1,6 @@
 #include <pwd.h>
 #include <sys/types.h>
-#include "include/zshell.h"
+#include "zshell.h"
 
 int type_prompt(char* prompt)
 {

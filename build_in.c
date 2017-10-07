@@ -1,7 +1,8 @@
-#include "include/zshell.h"
+#include "zshell.h"
 #include <pwd.h>
 #include <sys/types.h>
 #include <string.h>
+#include "history.h"
 
 int build_in(const char* com, char** par) {
 	char *path = NULL;
@@ -16,7 +17,11 @@ int build_in(const char* com, char** par) {
 		}
 		chdir(path);
 		return 1;
-	}else {
+	}else if (!strcmp(com, "history")){
+		list_history();
+		return 1;
+	}
+	else {
 		return 0;
 	}
 }

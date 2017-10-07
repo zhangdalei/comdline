@@ -1,4 +1,4 @@
-zshell: type_prompt.o read_command.o zshell.o build_in.o parse.o
+zshell: type_prompt.o read_command.o zshell.o build_in.o parse.o history.o
 	gcc -o $@ $^
 %.o: %.c
 	gcc -c -o $@ $< -I include -fno-stack-protector

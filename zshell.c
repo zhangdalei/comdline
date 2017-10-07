@@ -61,7 +61,6 @@ static void process()
 	if(signal(SIGCHLD,sig_handler) == SIG_ERR)
         perror("signal() error");
 	
-	
 	while(1)
 	{
 		type_prompt(prompt);
@@ -74,7 +73,7 @@ static void process()
 		com = command;
 		// 内建命令处理 cd
 		if (build_in(com, parameters))
-			return;
+			continue;
 		debug_print("command:[%s]\nparameters:\ncount:%d\n",com,parnum);
 		#ifdef DEBUG
 		int i;
@@ -94,6 +93,11 @@ static void process()
 			// 将标准输出重定向到out_fd
 			if (info.flag == OUT_REDIRECT){
 				out_fd = open(info.out_file, O_WRONLY|O_CREAT|O_TRUNC, 0666);
+				close (1);
+				dup2 (out_fd, 1);
+				close (out_fd);
+			}else if (info.flag == OUT_REDIRECT_APPEND){
+				out_fd = open(info.out_file, O_WRONLY|O_CREAT|O_APPEND, 0666);
 				close (1);
 				dup2 (out_fd, 1);
 				close (out_fd);

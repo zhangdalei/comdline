@@ -29,7 +29,14 @@ int parseing (char** parameters, int *parnum, struct parse_info *info)
 			parameters[i] = NULL;
 			*parnum = i;
 			i += 2;
+		}else if (!strcmp(parameters[i], ">>")){
+			info->flag = OUT_REDIRECT_APPEND;
+			info->out_file = parameters[i+1];
+			parameters[i] = NULL;
+			*parnum = i;
+			i += 2;
 		}
 	}
+	
 	return 1;
 }

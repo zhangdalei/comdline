@@ -1,25 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "include/zshell.h"
-#include "include/debug.h"
+#include "list.h"
+#include "debug.h"
+#include "history.h"
+
+LIST_HEAD_INIT(head);
 
 char buffer[PAR_LEN];
+char nodename[7] = {'\0'};
 int read_command(char **command,char **parameters)
 {
     char* Res_fgets = fgets(buffer,COMMAND_LEN,stdin);
+	char *pStart,*pEnd;
+    int count = 0;
+    int isFinished = 0;
+	static int history = 0;
+    pStart = pEnd = buffer;
     if(Res_fgets == NULL)
     {
         printf("\n");
         exit(0);
-    }		
+    }
 
     if(buffer[0] == '\0')
         return -1;
-    char *pStart,*pEnd;
-    int count = 0;
-    int isFinished = 0;
-    pStart = pEnd = buffer;
+    
+	// 保存历史
+	add_history(buffer);
+	
     while(isFinished == 0)
     {
         while((*pEnd == ' ' && *pStart == ' ') || (*pEnd == '\t' && *pStart == '\t'))
@@ -76,6 +85,6 @@ int read_command(char **command,char **parameters)
     int i;
     for(i=0;i<count;i++)
         debug_print("[%s]\n",parameters[i]);
-	
+
     return count;
 }
